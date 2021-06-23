@@ -8,6 +8,9 @@ on:
 env:
     NODE_VERSION: 16.x
     ANDROID_KEY_FILE: lycl.keystore
+    CACHE_NODE_MODULE: node_modules
+    CACHE_GRADLE_WRAPPER: gradle-wrapper
+    CACHE_GRADLE_CACHES: gradle-caches
 
 jobs:
   init:
@@ -21,11 +24,11 @@ jobs:
       - name: Cache node modules
         id: node-cache
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install
@@ -36,10 +39,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - name: Cache Node modules
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ env.CACHE_GRADLE_WRAPPER }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-${{ env.CACHE_GRADLE_CACHES }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_GRADLE_CACHES }}-
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
