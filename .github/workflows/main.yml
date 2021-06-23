@@ -32,9 +32,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
-          with:
-            path: '**/node_modules'
-            key: ${{ runner.os }}-${{ env.NODE_VERSION }}-modules-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
