@@ -14,15 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Install packages
-        run: yarn install
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/app-key.keystore
       - name: Build Android Release
         run: |
           cd android
-          ./gradlew assembleRelease -PKEY='app/app-key.keystore' -PKEY_ALIAS='${{ secrets.ANDROID_ALIAS }}' -PSTORE_PASSWORD='${{ secrets.ANDROID_PASSWORD }}' -PKEY_PASSWORD='${{ secrets.ANDROID_PASSWORD }}' --stacktrace
+          ./gradlew assembleRelease -PKEY='app-key.keystore' -PKEY_ALIAS='${{ secrets.ANDROID_ALIAS }}' -PSTORE_PASSWORD='${{ secrets.ANDROID_PASSWORD }}' -PKEY_PASSWORD='${{ secrets.ANDROID_PASSWORD }}' --stacktrace
