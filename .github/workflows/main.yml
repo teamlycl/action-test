@@ -28,7 +28,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.NODE_VERSION }}-
+            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install
