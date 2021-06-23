@@ -24,7 +24,7 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: node_modules
+          path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
