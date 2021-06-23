@@ -147,11 +147,12 @@ android {
     }
     signingConfigs {
          release {
-            storeFile project.hasProperty('KEY') ? project.KEY : 'default'
+            storeFile project.hasProperty('KEY') ? file(project.KEY) : 'default'
             storePassword project.hasProperty('STORE_PASSWORD') ? project.STORE_PASSWORD : 'default'
             keyAlias project.hasProperty('KEY_ALIAS') ? project.KEY_ALIAS : 'default'
             keyPassword project.hasProperty('KEY_PASSWORD') ? project.KEY_PASSWORD : 'default'
         }
+        
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
