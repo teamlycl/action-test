@@ -7,7 +7,7 @@ on:
 
 env:
     NODE_VERSION: 16.x
-    ANDROID_KEY_FILE: lycl.keystore
+    ANDROID_KEY_FILE: lycl2.keystore
 
 jobs:
   init:
