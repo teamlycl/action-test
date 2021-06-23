@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.template"
+        applicationId "me.unpatest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -152,7 +152,7 @@ android {
             keyAlias project.hasProperty('KEY_ALIAS') ? project.KEY_ALIAS : 'default'
             keyPassword project.hasProperty('KEY_PASSWORD') ? project.KEY_PASSWORD : 'default'
         }
-        
+
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
