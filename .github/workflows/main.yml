@@ -8,9 +8,15 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - name: Install packages
-        run: yarn install
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v1
+          with:
+            node-version: "14.x"
+        - name: Install packages
+          run: yarn install
+        - name: Generate Release Key
+          run: |
+            echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/app-key.keystore
+        - name: Build Android Release
+          run: |
+            cd android && ./gradlew assembleRelease -PKEY='app/app-key.keystore' -PKEY_ALIAS='${{ ANDROID_ALIAS }}' -PSTORE_PASSWORD='${{ ANDROID_PASSWORD }}' -PKEY_PASSWORD='${{ ANDROID_PASSWORD }}' --stacktrace
