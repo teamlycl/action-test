@@ -7,7 +7,7 @@ on:
 
 env:
     NODE_VERSION: 16.x
-    ANDROID_KEY_FILE: lycl2.keystore
+    ANDROID_KEY_FILE: lycl.keystore
 
 jobs:
   init:
@@ -38,6 +38,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
