@@ -61,11 +61,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_GRADLE_CACHES }}-
       - name: Cache Gem
-        id: gem-cache
         uses: actions/cache@v2
         with:
-          path: ./android/vendor/bundle
-          key: ${{ runner.os }}-${{ env.CACHE_GEM }}-${{ hashFiles('./android/Gemfile.lock') }}
+          path: android/vendor/bundle
+          key: ${{ runner.os }}-${{ env.CACHE_GEM }}-${{ hashFiles('android/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_GEM }}-
       - name: Generate Release Key
@@ -74,14 +73,9 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: "3.0.1"
-      - name: Bundle install
-        if: steps.gem-cache.outputs.cache-hit != 'true'
-        run: |
-          cd android
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
       - name: Beta deploy using Fastlane
         run: |
           cd android
           bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
           bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP_ID }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }} FIREBASE_GROUP:${{ env.FIREBASE_APP_GROUP }}
