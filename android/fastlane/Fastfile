@@ -28,7 +28,7 @@ platform :android do
     ANDROID_PASSWORD = options[:KEY_PASSWORD]
 
     gradle(
-      task: "clean assembleRelease",
+      task: "clean bundleRelease",
       properties: {
         "KEY" => ANDROID_KEY,
         "KEY_ALIAS" => ANDROID_ALIAS,
