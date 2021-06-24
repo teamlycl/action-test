@@ -1,0 +1,50 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Beta Build and firebase app distribution"
+  lane :beta  do |options|
+    ANDROID_KEY = options[:KEY]
+    ANDROID_ALIAS = options[:ALIAS]
+    ANDROID_PASSWORD = options[:KEY_PASSWORD]
+
+    gradle(
+      task: "clean assembleRelease",
+      properties: {
+        "KEY" => ANDROID_KEY,
+        "KEY_ALIAS" => ANDROID_ALIAS,
+        "STORE_PASSWORD" => ANDROID_PASSWORD,
+        "KEY_PASSWORD" => ANDROID_PASSWORD,
+      }
+    )
+  
+    FIREBASE_APP = options[:FIREBASE_APP]
+    FIREBASE_TOKEN = options[:FIREBASE_TOKEN]
+
+    firebase_app_distribution(
+      app: FIREBASE_APP,
+      firebase_cli_token: FIREBASE_TOKEN,
+      groups: "group1",
+      release_notes: "bugfix",
+      debug: true)
+  end
+end
