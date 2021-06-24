@@ -8,9 +8,11 @@ on:
 env:
     NODE_VERSION: 16.x
     ANDROID_KEY_FILE: lycl.keystore
+    FIREBASE_APP_GROUP: group1
     CACHE_NODE_MODULE: node_modules
     CACHE_GRADLE_WRAPPER: gradle-wrapper
     CACHE_GRADLE_CACHES: gradle-caches
+    CACHE_GEM: gem-cache
 
 jobs:
   init:
@@ -58,6 +60,13 @@ jobs:
           key: ${{ runner.os }}-${{ env.CACHE_GRADLE_CACHES }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_GRADLE_CACHES }}-
+      - name: Cache Gem
+        uses: actions/cache@v2
+        with:
+          path: ./android/vendor/bundle
+          key: ${{ runner.os }}-${{ env.CACHE_GEM }}-${{ hashFiles('./android/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_GEM }}-
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
@@ -68,4 +77,4 @@ jobs:
         run: |
           cd android
           bundle install
-          bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP_ID }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }}
+          bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP_ID }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }} FIREBASE_GROUP:${{ env.FIREBASE_APP_GROUP }}

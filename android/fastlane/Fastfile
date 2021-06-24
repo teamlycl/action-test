@@ -39,11 +39,12 @@ platform :android do
   
     FIREBASE_APP = options[:FIREBASE_APP]
     FIREBASE_TOKEN = options[:FIREBASE_TOKEN]
+    FIREBASE_GROUP = options[:FIREBASE_GROUP]
 
     firebase_app_distribution(
       app: FIREBASE_APP,
       firebase_cli_token: FIREBASE_TOKEN,
-      groups: "group1",
+      groups: FIREBASE_GROUP,
       release_notes: "bugfix",
       debug: true)
   end
