@@ -61,11 +61,11 @@ jobs:
       - name: Generate Release Key
         run: |
           echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
-      - name: Beta deploy using Fastlane
-        uses: actions/setup-ruby@v1
+      - uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.x"
+      - name: Beta deploy using Fastlane
         run: |
           cd android
           bundle install
-          bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }}
+          bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP_ID }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }}
