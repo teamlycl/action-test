@@ -8,8 +8,8 @@ on:
 env:
     NODE_VERSION: 16.x
     FIREBASE_APP_GROUP: group1
-    CACHE_NODE_MODULE: node_modules
-    CACHE_POD_MODULE: pods
+    CACHE_NODE_MODULE: node_modulesV1
+    CACHE_POD_MODULE: podsV1
 
 jobs:
   init:
