@@ -38,11 +38,10 @@ jobs:
             ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
       - name: Install pods
         if: steps.pods-cache.outputs.cache-hit != 'true'
         run: |
-          npm audit fix
           cd ios
           pod install
         
