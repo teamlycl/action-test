@@ -23,22 +23,23 @@ platform :ios do
 
   desc "Beta Build and firebase app distribution"
   lane :beta do
-    build_app(
-      workspace: "template.xcworkspace",
-      configuration: "Release",
-      scheme: "template",
-      silent: true,
-      clean: true,
-      output_directory: "output",
-      output_name: "template.ipa"
-    )
+    match(type: 'development', readonly: is_ci, verbose: true, git_basic_authorization: ENV["GIT_AUTHORIZATION"])
+    # build_app(
+    #   workspace: "template.xcworkspace",
+    #   configuration: "Release",
+    #   scheme: "template",
+    #   silent: true,
+    #   clean: true,
+    #   output_directory: "output",
+    #   output_name: "template.ipa"
+    # )
 
-    firebase_app_distribution(
-        app: "1:9212010080:ios:37cc2162af5689f4132d05",
-        firebase_cli_token: "4/1AY0e-g5g64C5mlg_LfcoBsg_HyfzXDMu2ls3jeeyS-eNr_0yDjpvZiVQJ1Y",
-        groups: "group1",
-        release_notes: "bugfix",
-        debug: true
-    )
+    # firebase_app_distribution(
+    #     app: "1:9212010080:ios:37cc2162af5689f4132d05",
+    #     firebase_cli_token: "4/1AY0e-g5g64C5mlg_LfcoBsg_HyfzXDMu2ls3jeeyS-eNr_0yDjpvZiVQJ1Y",
+    #     groups: "group1",
+    #     release_notes: "bugfix",
+    #     debug: true
+    # )
   end
 end

@@ -6,6 +6,6 @@
 #     https://docs.fastlane.tools/advanced/#appfile
 app_indentifier('me.unpa.dev')
 
-apple_id('yozi@lycl.co.kr')
+apple_id('dev@lycl.co.kr')
 
 team_id('KLSQGFA9ZQ')

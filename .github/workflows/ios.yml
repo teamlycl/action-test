@@ -1,0 +1,58 @@
+name: Publish App
+
+on: 
+  push:
+    branches:
+      - master
+
+env:
+    NODE_VERSION: 16.x
+    FIREBASE_APP_GROUP: group1
+    CACHE_NODE_MODULE: node_modules
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node modules
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
+      - name: Install packages
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm install
+        
+  Beta-Deploy-ios:
+    runs-on: macOS-latest
+    needs: [init]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0.1"
+          working-directory: "ios"
+          bundler-cache: true
+      - name: Beta deploy using Fastlane
+        env:
+          GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
+          MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
+        run: |
+          cd ios
+          bundle exec fastlane beta
