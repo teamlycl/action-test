@@ -9,10 +9,11 @@ env:
     NODE_VERSION: 16.x
     FIREBASE_APP_GROUP: group1
     CACHE_NODE_MODULE: node_modules
+    CACHE_POD_MODULE: pods
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -27,9 +28,22 @@ jobs:
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
+      - name: Cache pods modules
+        id: pods-cache
+        uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install
+      - name: Install pods
+        if: steps.pods-cache.outputs.cache-hit != 'true'
+        run: |
+          cd ios
+          pod install
         
   Beta-Deploy-ios:
     runs-on: macOS-latest
@@ -44,6 +58,13 @@ jobs:
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.NODE_VERSION }}-
+      - name: Cache pods modules
+        uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.0.1"
@@ -53,6 +74,9 @@ jobs:
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
           MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
+          FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_GROUP: ${{ env.FIREBASE_APP_GROUP }}
         run: |
           cd ios
           bundle exec fastlane beta
