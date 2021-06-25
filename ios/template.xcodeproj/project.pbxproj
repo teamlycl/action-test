@@ -513,7 +513,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.unpa.dev;
 				PRODUCT_NAME = template;
-				PROVISIONING_PROFILE_SPECIFIER = TestForRNApp;
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.unpa.dev";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -541,7 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.unpa.dev;
 				PRODUCT_NAME = template;
-				PROVISIONING_PROFILE_SPECIFIER = TestForRNApp;
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.unpa.dev";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
