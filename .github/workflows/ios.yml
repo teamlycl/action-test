@@ -8,8 +8,8 @@ on:
 env:
     NODE_VERSION: 16.x
     FIREBASE_APP_GROUP: group1
-    CACHE_NODE_MODULE: node_modules@test7
-    CACHE_POD_MODULE: pods@test7
+    CACHE_NODE_MODULE: node_modules@test8
+    CACHE_POD_MODULE: pods@test8
 
 jobs:
   init:
@@ -67,7 +67,7 @@ jobs:
             ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.x"
+          ruby-version: "2.7.3"
       - name: Install Fastlane
         run: cd ios && bundle install
       - name: Beta deploy using Fastlane
