@@ -26,16 +26,12 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
       - name: Cache pods modules
         id: pods-cache
         uses: actions/cache@v2
         with:
           path: 'ios/Pods'
           key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install
@@ -57,15 +53,11 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.NODE_VERSION }}-
       - name: Cache pods modules
         uses: actions/cache@v2
         with:
           path: 'ios/Pods'
           key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.0.1"
