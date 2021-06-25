@@ -23,7 +23,7 @@ platform :ios do
 
   desc "Beta Build and firebase app distribution"
   lane :beta do
-    match(type: 'development', readonly: is_ci, verbose: true, git_basic_authorization: ENV["GIT_AUTHORIZATION"])
+    match(type: 'development', readonly: is_ci, verbose: true, git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]))
     # build_app(
     #   workspace: "template.xcworkspace",
     #   configuration: "Release",
