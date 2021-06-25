@@ -10,6 +10,8 @@ env:
     FIREBASE_APP_GROUP: group1
     CACHE_NODE_MODULE: node_modules
     CACHE_POD_MODULE: pods
+    KEYCHAIN_NAME: lycl
+    KEYCHAIN_PASSWORD: lycl_keychain_password
 
 jobs:
   init:
@@ -71,6 +73,8 @@ jobs:
           ruby-version: "3.0.1"
           working-directory: "ios"
           bundler-cache: true
+      - name: Set up mac keychain
+        run: fastlane run create_keychain name:${{ env.KEYCHAIN_NAME }} password:${{ env.KEYCHAIN_PASSWORD }}
       - name: Beta deploy using Fastlane
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}

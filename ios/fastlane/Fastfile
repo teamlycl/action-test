@@ -27,7 +27,14 @@ platform :ios do
 
   desc "Beta Build and firebase app distribution"
   lane :beta do
-    match(type: 'adhoc', readonly: is_ci, verbose: true, git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]))
+    match(
+      type: 'adhoc', 
+      readonly: is_ci, 
+      verbose: true, 
+      git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
+      keychain_name: ENV["KEYCHAIN_NAME"],
+      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
 
     gym(
       scheme: ENV["PROJECT_NAME"],
