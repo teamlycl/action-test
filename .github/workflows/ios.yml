@@ -67,8 +67,9 @@ jobs:
             ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.7.3"
-          working-directory: "ios"
+          ruby-version: "2.x"
+      - name: Install Fastlane
+        run: cd ios && bundle install
       - name: Beta deploy using Fastlane
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
