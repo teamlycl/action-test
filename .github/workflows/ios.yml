@@ -37,7 +37,7 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
         
-  Beta-Deploy-ios:
+  deploy-ios-beta:
     runs-on: macOS-latest
     needs: [init]
 
@@ -53,7 +53,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
 
-      - uses: actions/cache@v2
+      - name: Cache Pods
+        uses: actions/cache@v2
         with:
           path: 'ios/Pods'
           key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
