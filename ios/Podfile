@@ -31,4 +31,5 @@ target 'template' do
     end
     react_native_post_install(installer)
   end
+  
 end
