@@ -3,7 +3,7 @@ name: Publish App
 on: 
   push:
     branches:
-      - master
+      - test
 
 env:
     NODE_VERSION: 16.x
