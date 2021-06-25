@@ -27,7 +27,7 @@ platform :ios do
 
   desc "Beta Build and firebase app distribution"
   lane :beta do
-    # match(type: 'development', readonly: is_ci, verbose: true, git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]))
+    match(type: 'adhoc', readonly: is_ci, verbose: true, git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]))
 
     gym(
       scheme: ENV["PROJECT_NAME"],
@@ -43,22 +43,11 @@ platform :ios do
       }
     )
 
-    # build_app(
-    #   workspace: "template.xcworkspace",
-    #   configuration: "Release",
-    #   scheme: "template",
-    #   silent: true,
-    #   clean: true,
-    #   output_directory: "output",
-    #   output_name: "template.ipa"
-    # )
-
-    # firebase_app_distribution(
-    #     app: "#",
-    #     firebase_cli_token: "#",
-    #     groups: "group1",
-    #     release_notes: "bugfix",
-    #     debug: true
-    # )
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP"],
+      firebase_cli_token: ENV["FIREBASE_TOKEN"],
+      groups: ENV["FIREBASE_GROUP"],
+      release_notes: "bugfix",
+      debug: true)
   end
 end
