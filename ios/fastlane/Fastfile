@@ -27,6 +27,15 @@ platform :ios do
 
   desc "Beta Build and firebase app distribution"
   lane :beta do
+    create_keychain(
+      name: ENV["KEYCHAIN_NAME"],
+      password: ENV["KEYCHAIN_PASSWORD"],
+      timeout: 1800,
+      default_keychain: true,
+      unlock: true,
+      lock_when_sleeps: false
+    )
+
     match(
       type: 'adhoc', 
       readonly: is_ci, 
