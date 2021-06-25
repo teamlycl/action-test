@@ -30,8 +30,6 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
             
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
@@ -50,21 +48,18 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
 
       - name: Cache Pods
         uses: actions/cache@v2
         with:
           path: 'ios/Pods'
           key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7.3"
+          working-directory: "ios"
           bundler-cache: true
 
       - name: Install Pods, Bundle

@@ -2,7 +2,7 @@ git_url("https://github.com/teamlycl/fastlane-match")
 
 storage_mode("git")
 
-type("adhoc")
+type("development")
 
 app_identifier(["me.unpa.dev"])
 username("dev@lycl.co.kr")
