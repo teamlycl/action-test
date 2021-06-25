@@ -42,6 +42,7 @@ jobs:
       - name: Install pods
         if: steps.pods-cache.outputs.cache-hit != 'true'
         run: |
+          npm audit fix
           cd ios
           pod install
         
