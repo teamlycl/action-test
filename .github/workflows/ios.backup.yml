@@ -3,27 +3,23 @@ name: Publish App
 on: 
   push:
     branches:
-      - master
+      - test
 
 env:
     NODE_VERSION: 16.x
     FIREBASE_APP_GROUP: group1
-    CACHE_NODE_MODULE: node_modules@iostest1
-    CACHE_POD_MODULE: pods@iostest1
+    CACHE_NODE_MODULE: node_modules@test8
+    CACHE_POD_MODULE: pods@test8
 
 jobs:
   init:
     runs-on: macOS-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-
       - name: Cache node modules
         id: node-cache
         uses: actions/cache@v2
@@ -32,38 +28,48 @@ jobs:
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
-            
+      - name: Cache pods modules
+        id: pods-cache
+        uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
       - name: Install packages
         # if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Install pods
+        # if: steps.pods-cache.outputs.cache-hit != 'true'
+        run: |
+          cd ios
+          pod install
         
   Beta-Deploy-ios:
     runs-on: macOS-latest
     needs: [init]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Cache node modules
+      - uses: actions/checkout@v2
+      - name: Cache Node modules
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+            ${{ runner.os }}-${{ env.NODE_VERSION }}-
+      - name: Cache pods modules
+        uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7.3"
-
-      - name: Install Pods
-        run: | 
-          cd ios
-          pod install
-          bundle install
-          
+      - name: Install Fastlane
+        run: cd ios && bundle install
       - name: Beta deploy using Fastlane
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
