@@ -74,7 +74,9 @@ jobs:
           working-directory: "ios"
           bundler-cache: true
       - name: Set up mac keychain
-        run: fastlane run create_keychain name:${{ env.KEYCHAIN_NAME }} password:${{ env.KEYCHAIN_PASSWORD }}
+        run: | 
+        cd ios
+        bundle exec fastlane run create_keychain name:${{ env.KEYCHAIN_NAME }} password:${{ env.KEYCHAIN_PASSWORD }}
       - name: Beta deploy using Fastlane
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
