@@ -8,8 +8,8 @@ on:
 env:
     NODE_VERSION: 16.x
     FIREBASE_APP_GROUP: group1
-    CACHE_NODE_MODULE: node_modules@iostest1
-    CACHE_POD_MODULE: pods@iostest1
+    CACHE_NODE_MODULE: node_modules@v1
+    CACHE_POD_MODULE: pods@v1
 
 jobs:
   init:
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
             
       - name: Install packages
-        # if: steps.node-cache.outputs.cache-hit != 'true'
+        if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
         
   Beta-Deploy-ios:
@@ -53,22 +53,30 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-
 
+      - uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7.3"
+          bundler-cache: true
 
-      - name: Install Pods
+      - name: Install Pods, Bundle
         run: | 
           cd ios
-          pod install
           bundle install
+          bundle exec pod install
           
       - name: Beta deploy using Fastlane
         env:
           GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
           MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
-          FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_APP: ${{ secrets.FIREBASE_IOS_APP_ID }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           FIREBASE_GROUP: ${{ env.FIREBASE_APP_GROUP }}
           KEYCHAIN_NAME: lycl
