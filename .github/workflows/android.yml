@@ -3,7 +3,7 @@ name: Publish App
 on: 
   push:
     branches:
-      - test
+      - master
 
 env:
     NODE_VERSION: 16.x
@@ -37,7 +37,7 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
         
-  Beta-Deploy-Android:
+  deploy-android-beta:
     runs-on: ubuntu-latest
     needs: [init]
 
@@ -75,6 +75,13 @@ jobs:
           bundler-cache: true
 
       - name: Beta deploy using Fastlane
+        env:
+          ANDROID_KEY: ${{ env.ANDROID_KEY_FILE }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_PASSWORD }}
+          FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_TOKEN: ${{ env.FIREBASE_TOKEN }}
+          FIREBASE_GROUP: ${{ env.FIREBASE_APP_GROUP }}
         run: |
           cd android
-          bundle exec fastlane beta KEY:${{ env.ANDROID_KEY_FILE }} ALIAS:${{ secrets.ANDROID_ALIAS }} KEY_PASSWORD:${{ secrets.ANDROID_PASSWORD }} FIREBASE_APP:${{ secrets.FIREBASE_APP_ID }} FIREBASE_TOKEN:${{ secrets.FIREBASE_TOKEN }} FIREBASE_GROUP:${{ env.FIREBASE_APP_GROUP }}
+          bundle exec fastlane beta

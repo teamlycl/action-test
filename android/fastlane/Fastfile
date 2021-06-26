@@ -16,35 +16,22 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
   desc "Beta Build and firebase app distribution"
-  lane :beta  do |options|
-    ANDROID_KEY = options[:KEY]
-    ANDROID_ALIAS = options[:ALIAS]
-    ANDROID_PASSWORD = options[:KEY_PASSWORD]
-
+  lane :beta do
     gradle(
       task: "clean assembleRelease",
       properties: {
-        "KEY" => ANDROID_KEY,
-        "KEY_ALIAS" => ANDROID_ALIAS,
-        "STORE_PASSWORD" => ANDROID_PASSWORD,
-        "KEY_PASSWORD" => ANDROID_PASSWORD,
+        "KEY" => ENV['ANDROID_KEY'],
+        "KEY_ALIAS" => ENV['ANDROID_KEY_ALIAS'],
+        "STORE_PASSWORD" => ENV['ANDROID_KEY_PASSWORD'],
+        "KEY_PASSWORD" => ENV['ANDROID_KEY_PASSWORD'],
       }
     )
-  
-    FIREBASE_APP = options[:FIREBASE_APP]
-    FIREBASE_TOKEN = options[:FIREBASE_TOKEN]
-    FIREBASE_GROUP = options[:FIREBASE_GROUP]
 
     firebase_app_distribution(
-      app: FIREBASE_APP,
-      firebase_cli_token: FIREBASE_TOKEN,
-      groups: FIREBASE_GROUP,
+      app: ENV['FIREBASE_APP'],
+      firebase_cli_token: ENV['FIREBASE_TOKEN'],
+      groups: ENV['FIREBASE_GROUP'],
       release_notes: "bugfix",
       debug: true)
   end
