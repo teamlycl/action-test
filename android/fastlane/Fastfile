@@ -21,7 +21,7 @@ platform :android do
     gradle(
       task: "clean assembleRelease",
       properties: {
-        "KEY" => ENV['ANDROID_KEY'],
+        "KEY" => ENV['ANDROID_KEY_FILE_NAME'],
         "KEY_ALIAS" => ENV['ANDROID_KEY_ALIAS'],
         "STORE_PASSWORD" => ENV['ANDROID_KEY_PASSWORD'],
         "KEY_PASSWORD" => ENV['ANDROID_KEY_PASSWORD'],
