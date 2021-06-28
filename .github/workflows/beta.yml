@@ -55,6 +55,12 @@ jobs:
       ANDROID_KEY_FILE: lycl.keystore
 
     steps:
+      - name: runner os check
+        run: |
+          if [ "$RUNNER_OS" != "macOS" ]; then
+            echo "$RUNNER_OS not supported"
+            exit 1
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -100,6 +106,12 @@ jobs:
       FIREBASE_GROUP: group1
       
     steps:
+      - name: Runner os check
+        run: |
+          if [ "$RUNNER_OS" != "Linux" ]; then
+            echo "$RUNNER_OS not supported"
+            exit 1
+            
       - name: Checkout
         uses: actions/checkout@v2
 
