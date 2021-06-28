@@ -40,7 +40,7 @@ jobs:
     needs: [init]
 
     env: 
-      ANDROID_KEY: lycl.keystore
+      ANDROID_KEY_FILE_NAME: lycl.keystore
       ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
       ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_PASSWORD }}
       FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
@@ -71,7 +71,7 @@ jobs:
 
       - name: Generate Release Key
         run: |
-          echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE }}
+          echo "${{ secrets.ANDROID_KEY }}" | base64 -d > android/app/${{ env.ANDROID_KEY_FILE_NAME }}
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
