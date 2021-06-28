@@ -28,15 +28,20 @@ platform :android do
       }
     )
 
-    increment_version_code(
-      gradle_file_path: "./app/build.gradle",
-    )
-
+    build_number_bump()
+    
     firebase_app_distribution(
       app: ENV['FIREBASE_APP'],
       firebase_cli_token: ENV['FIREBASE_TOKEN'],
       groups: ENV['FIREBASE_GROUP'],
-      release_notes: "bugfix",
+      release_notes: ENV['RELEASE_NOTE'],
       debug: true)
+  end
+
+  lane :build_number_bump do
+    ensure_git_status_clean
+    version = increment_version_code(gradle_file_path: "app/build.gradle")
+    git_commit(path: "app/build.gradle", message: "Bump build number to #{version} by fastlane")
+    push_to_git_remote
   end
 end

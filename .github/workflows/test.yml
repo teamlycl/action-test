@@ -1,4 +1,4 @@
-name: android beta push
+name: android beta deploy
 
 on: 
   workflow_dispatch:
@@ -52,7 +52,7 @@ jobs:
       ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_PASSWORD }}
       FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      FIREBASE_GROUP: group1
+      FIREBASE_GROUP: ${{ github.event.inputs.app_target }}
       
     steps:
       - name: Checkout
@@ -88,6 +88,8 @@ jobs:
           bundler-cache: true
 
       - name: Beta deploy using Fastlane
+        ENV: 
+          RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
         run: |
           cd android
           bundle exec fastlane beta
