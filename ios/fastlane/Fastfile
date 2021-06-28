@@ -11,6 +11,7 @@
 #
 
 PROJECT_NAME = "template"
+XCODE_PROJECT = "./#{PROJECT_NAME}.xcodeproj"
 XCODE_WORKSPACE = "./#{PROJECT_NAME}.xcworkspace"
 OUTPUT_DIRECTORY = "./fastlane/builds"
 
@@ -22,6 +23,8 @@ default_platform(:ios)
 platform :ios do
   desc "Beta Build and firebase app distribution"
   lane :beta do
+    configuration_name = "Release"
+
     create_keychain(
       name: ENV["KEYCHAIN_NAME"],
       password: ENV["KEYCHAIN_PASSWORD"],
@@ -49,10 +52,13 @@ platform :ios do
       silent: true,
       output_directory: OUTPUT_DIRECTORY,
       output_name: "#{PROJECT_NAME}.ipa",
+      configuration: configuration_name,
       export_options: {
-        method: "ad-hoc",
+        method: ENV["SIGH_PROFILE_TYPE"],
+        provisioningProfiles: ENV['MATCH_PROVISIONING_PROFILE_MAPPING'],
         signingStyle: "manual",
-      }
+        path: XCODE_PROJECT
+      },
     )
 
     firebase_app_distribution(
