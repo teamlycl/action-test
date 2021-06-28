@@ -32,7 +32,7 @@ platform :ios do
     )
 
     match(
-      type: 'development', 
+      type: 'adhoc', 
       readonly: is_ci, 
       verbose: true, 
       git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
@@ -48,7 +48,7 @@ platform :ios do
       output_directory: OUTPUT_DIRECTORY,
       output_name: "#{PROJECT_NAME}.ipa",
       export_options: {
-        method: "development",
+        method: "ad-hoc",
         signingStyle: "manual",
       }
     )
