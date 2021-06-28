@@ -1,13 +1,12 @@
-name: Publish App
+name: ios beta push
 
 on: 
   push:
     branches:
-      - ios
+      - master
 
 env:
     NODE_VERSION: 16.x
-    FIREBASE_APP_GROUP: group1
     CACHE_NODE_MODULE: node_modules@v1
     CACHE_POD_MODULE: pods@v1
 
@@ -39,6 +38,16 @@ jobs:
     runs-on: macOS-latest
     needs: [init]
 
+    env: 
+      GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
+      MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
+      FIREBASE_APP: ${{ secrets.FIREBASE_IOS_APP_ID }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      FIREBASE_GROUP: group1
+      KEYCHAIN_NAME: lycl
+      KEYCHAIN_PASSWORD: lycl_keychain_password
+      ANDROID_KEY_FILE: lycl.keystore
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -68,14 +77,6 @@ jobs:
           bundle exec pod install
           
       - name: Beta deploy using Fastlane
-        env:
-          GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
-          MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
-          FIREBASE_APP: ${{ secrets.FIREBASE_IOS_APP_ID }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          FIREBASE_GROUP: ${{ env.FIREBASE_APP_GROUP }}
-          KEYCHAIN_NAME: lycl
-          KEYCHAIN_PASSWORD: lycl_keychain_password
         run: |
           cd ios
           bundle exec fastlane beta
