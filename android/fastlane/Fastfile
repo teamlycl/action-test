@@ -28,6 +28,10 @@ platform :android do
       }
     )
 
+    increment_version_code(
+      gradle_file_path: "./app/build.gradle",
+    )
+
     firebase_app_distribution(
       app: ENV['FIREBASE_APP'],
       firebase_cli_token: ENV['FIREBASE_TOKEN'],
