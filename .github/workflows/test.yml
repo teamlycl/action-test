@@ -14,6 +14,7 @@ on:
 
 env:
     NODE_VERSION: 16.x
+    GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
     CACHE_GRADLE_WRAPPER: gradle-wrapper
     CACHE_GRADLE_CACHES: gradle-caches
     CACHE_NODE_MODULE: node_modules@v1

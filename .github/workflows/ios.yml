@@ -7,6 +7,7 @@ on:
 
 env:
     NODE_VERSION: 16.x
+    GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
     CACHE_NODE_MODULE: node_modules@v1
     CACHE_POD_MODULE: pods@v1
 
@@ -39,7 +40,6 @@ jobs:
     needs: [init]
 
     env: 
-      GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
       MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
       FIREBASE_APP: ${{ secrets.FIREBASE_IOS_APP_ID }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

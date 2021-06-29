@@ -40,11 +40,19 @@ platform :android do
   desc "build version bump"
   lane :version_bump do
     increment_version_code(gradle_file_path: "app/build.gradle")
-    git_add(path: "app/build.gradle")
-    push_to_git_remote(
-      remote: "origin",
-      remote_branch: "master",
-      force: true,
+    commit_github_file(
+      repository_name: "master",
+      api_token: ENV["GIT_AUTHORIZATION"],
+      message: "🎉 build version bump",
+      branch: "master",
+      path: "app/build.gradle"
     )
+
+    # git_add(path: "app/build.gradle")
+    # push_to_git_remote(
+    #   remote: "origin",
+    #   remote_branch: "master",
+    #   force: true,
+    # )
   end
 end
