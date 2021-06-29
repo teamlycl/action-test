@@ -40,7 +40,7 @@ platform :android do
   desc "build version bump"
   lane :version_bump do
     puts Dir.pwd
-    increment_version_code(gradle_file_path: "./app/build.gradle")
+    increment_version_code(gradle_file_path: "./android/app/build.gradle")
     commit_github_file(
       repository_name: "teamlycl/action-test",
       api_token: ENV["GIT_AUTHORIZATION"],
