@@ -1,9 +1,16 @@
 name: ios beta push
 
 on: 
-  push:
-    branches:
-      - ios
+  workflow_dispatch:
+    inputs:
+      app_target:
+        description: 'firebase app distribution group'
+        required: true
+        default: 'tester_group'
+      release_notes:
+        description: 'release notes'
+        required: false
+        default: 'bugfix'
 
 env:
     NODE_VERSION: 16.x
@@ -80,3 +87,9 @@ jobs:
         run: |
           cd ios
           bundle exec fastlane beta
+
+      - name: build version bump
+        uses: actions-go/push@master
+        with:
+          commit-message: '[Auto] build version bump'
+          remote: origin

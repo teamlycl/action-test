@@ -1,12 +1,20 @@
-name: android beta push
+name: android beta deploy
 
 on: 
-  push:
-    branches:
-      - android
+  workflow_dispatch:
+    inputs:
+      app_target:
+        description: 'firebase app distribution group'
+        required: true
+        default: 'tester_group'
+      release_notes:
+        description: 'release notes'
+        required: false
+        default: 'bugfix'
 
 env:
     NODE_VERSION: 16.x
+    GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
     CACHE_GRADLE_WRAPPER: gradle-wrapper
     CACHE_GRADLE_CACHES: gradle-caches
     CACHE_NODE_MODULE: node_modules@v1
@@ -45,7 +53,7 @@ jobs:
       ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_PASSWORD }}
       FIREBASE_APP: ${{ secrets.FIREBASE_APP_ID }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      FIREBASE_GROUP: group1
+      FIREBASE_GROUP: ${{ github.event.inputs.app_target }}
       
     steps:
       - name: Checkout
@@ -81,6 +89,14 @@ jobs:
           bundler-cache: true
 
       - name: Beta deploy using Fastlane
+        env: 
+          RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
         run: |
           cd android
           bundle exec fastlane beta
+      
+      - name: build version bump
+        uses: actions-go/push@master
+        with:
+          commit-message: '[Auto] build version bump'
+          remote: origin
