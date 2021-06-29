@@ -95,5 +95,8 @@ jobs:
           cd android
           bundle exec fastlane beta
       
-      # - name: build number bump
-      # ??? git commit, push ???
+      - name: build version bump
+        uses: actions-go/push@master
+        with:
+          commit-message: '[Auto] build version bump'
+          remote: origin

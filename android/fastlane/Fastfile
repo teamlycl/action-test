@@ -34,18 +34,5 @@ platform :android do
     #   groups: ENV['FIREBASE_GROUP'],
     #   release_notes: ENV['RELEASE_NOTE'],
     #   debug: true)
-
-    version_bump_commit();
-  end
-
-  desc "build version bump commit"
-  lane :version_bump_commit do
-    commit_github_file(
-      repository_name: "teamlycl/action-test",
-      api_token: ENV["GIT_AUTHORIZATION"],
-      message: "🎉 build version bump",
-      branch: "master",
-      path: "./../android/app/version.properties"
-    )
   end
 end
