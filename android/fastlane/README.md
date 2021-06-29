@@ -21,11 +21,6 @@ or alternatively using `brew install fastlane`
 fastlane android beta
 ```
 Beta Build and firebase app distribution
-### android version_bump_commit
-```
-fastlane android version_bump_commit
-```
-build version bump commit
 
 ----
 
