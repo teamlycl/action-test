@@ -45,7 +45,7 @@ platform :android do
       api_token: ENV["GIT_AUTHORIZATION"],
       message: "🎉 build version bump",
       branch: "master",
-      path: "../android/app/version.properties"
+      path: "./../android/app/version.properties"
     )
   end
 end
