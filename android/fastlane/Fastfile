@@ -46,4 +46,5 @@ platform :android do
       remote_branch: "master",
       force: true,
     )
+  end
 end
