@@ -28,12 +28,12 @@ platform :android do
       }
     )
     
-    firebase_app_distribution(
-      app: ENV['FIREBASE_APP'],
-      firebase_cli_token: ENV['FIREBASE_TOKEN'],
-      groups: ENV['FIREBASE_GROUP'],
-      release_notes: ENV['RELEASE_NOTE'],
-      debug: true)
+    # firebase_app_distribution(
+    #   app: ENV['FIREBASE_APP'],
+    #   firebase_cli_token: ENV['FIREBASE_TOKEN'],
+    #   groups: ENV['FIREBASE_GROUP'],
+    #   release_notes: ENV['RELEASE_NOTE'],
+    #   debug: true)
 
     version_bump_commit();
   end
@@ -45,7 +45,7 @@ platform :android do
       api_token: ENV["GIT_AUTHORIZATION"],
       message: "🎉 build version bump",
       branch: "master",
-      path: "app/build.gradle"
+      path: "android/app/version.properties"
     )
   end
 end
