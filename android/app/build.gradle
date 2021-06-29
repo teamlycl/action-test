@@ -138,6 +138,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    
     splits {
         abi {
             reset()
@@ -228,6 +229,29 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+//can call this like `./gradlew incrementVersionCode build`
+task incrementVersionCode {
+    description = "Increments the version code in the version.properties file"
+
+    doLast {
+        File versionPropsFile = file('version.properties')
+
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+
+            versionProps.load(new FileInputStream(versionPropsFile))
+
+            def code = versionProps['VERSION_CODE'].toInteger() + 1
+
+            versionProps['VERSION_CODE'] = code.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println "VERSION_CODE incremented to "+code
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+    }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
