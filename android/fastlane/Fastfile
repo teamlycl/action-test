@@ -40,6 +40,7 @@ platform :android do
 
   desc "build version bump"
   lane :version_bump do
+    gradle(task: "incrementVersionCode")
     commit_github_file(
       repository_name: "teamlycl/action-test",
       api_token: ENV["GIT_AUTHORIZATION"],

@@ -135,7 +135,7 @@ android {
         applicationId "com.unpatest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode getIncrementingVersionCode()
         versionName "1.0"
     }
     
@@ -251,6 +251,22 @@ task incrementVersionCode {
         } else {
             throw new GradleException("Could not read version.properties!")
         }
+    }
+}
+
+//can call this from your android DSL
+int getIncrementingVersionCode() {
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def code = versionProps['VERSION_CODE'].toInteger()
+        return code
+    } else {
+        throw new GradleException("Could not read version.properties!")
     }
 }
 
