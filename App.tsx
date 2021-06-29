@@ -61,7 +61,7 @@ const App = () => {
           }}
         >
           <Section title="Step One">
-            HELLO LYCL TEST Edit <Text style={styles.highlight}>App.js</Text> to change this screen and then come back to see your edits.
+            HELLO LYCL CODE PUSH TEST Edit <Text style={styles.highlight}>App.js</Text> to change this screen and then come back to see your edits.
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
