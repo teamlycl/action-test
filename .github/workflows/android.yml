@@ -6,7 +6,7 @@ on:
       app_target:
         description: 'firebase app distribution group'
         required: true
-        default: 'tester_group'
+        default: 'aos_tester_group'
       release_notes:
         description: 'release notes'
         required: false
