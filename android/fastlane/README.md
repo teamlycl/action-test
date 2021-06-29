@@ -16,16 +16,16 @@ or alternatively using `brew install fastlane`
 
 # Available Actions
 ## Android
-### android test
-```
-fastlane android test
-```
-Runs all the tests
 ### android beta
 ```
 fastlane android beta
 ```
 Beta Build and firebase app distribution
+### android version_bump_commit
+```
+fastlane android version_bump_commit
+```
+build version bump commit
 
 ----
 

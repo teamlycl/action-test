@@ -35,12 +35,11 @@ platform :android do
       release_notes: ENV['RELEASE_NOTE'],
       debug: true)
 
-    version_bump();
+    version_bump_commit();
   end
 
-  desc "build version bump"
-  lane :version_bump do
-    gradle(task: "incrementVersionCode")
+  desc "build version bump commit"
+  lane :version_bump_commit do
     commit_github_file(
       repository_name: "teamlycl/action-test",
       api_token: ENV["GIT_AUTHORIZATION"],
@@ -48,12 +47,5 @@ platform :android do
       branch: "master",
       path: "app/build.gradle"
     )
-
-    # git_add(path: "app/build.gradle")
-    # push_to_git_remote(
-    #   remote: "origin",
-    #   remote_branch: "master",
-    #   force: true,
-    # )
   end
 end
