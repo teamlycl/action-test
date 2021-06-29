@@ -83,6 +83,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -148,13 +149,6 @@ android {
         }
     }
     signingConfigs {
-         release {
-            storeFile project.hasProperty('KEY') ? file(project.KEY) : 'default'
-            storePassword project.hasProperty('STORE_PASSWORD') ? project.STORE_PASSWORD : 'default'
-            keyAlias project.hasProperty('KEY_ALIAS') ? project.KEY_ALIAS : 'default'
-            keyPassword project.hasProperty('KEY_PASSWORD') ? project.KEY_PASSWORD : 'default'
-        }
-
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -169,7 +163,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
