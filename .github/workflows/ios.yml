@@ -50,7 +50,6 @@ jobs:
       MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
       FIREBASE_APP: ${{ secrets.FIREBASE_IOS_APP_ID }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      FIREBASE_GROUP: group1
       KEYCHAIN_NAME: lycl
       KEYCHAIN_PASSWORD: lycl_keychain_password
       ANDROID_KEY_FILE: lycl.keystore
@@ -84,6 +83,9 @@ jobs:
           bundle exec pod install
           
       - name: Beta deploy using Fastlane
+        env: 
+          RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
+          FIREBASE_GROUP: ${{ github.event.inputs.app_target }}
         run: |
           cd ios
           bundle exec fastlane beta

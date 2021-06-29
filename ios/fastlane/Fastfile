@@ -51,7 +51,7 @@ platform :ios do
       app: ENV["FIREBASE_APP"],
       firebase_cli_token: ENV["FIREBASE_TOKEN"],
       groups: ENV["FIREBASE_GROUP"],
-      release_notes: "bugfix",
+      release_notes: ENV["RELEASE_NOTE"],
       debug: true)
   end
 end
