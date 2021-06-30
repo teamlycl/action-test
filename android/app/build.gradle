@@ -1,3 +1,6 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 apply plugin: "com.android.application"
 apply plugin: "com.google.gms.google-services"
 
@@ -127,6 +130,8 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    flavorDimensions "default"
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -136,8 +141,8 @@ android {
         applicationId "com.unpatest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode getIncrementingVersionCode()
-        versionName "0.0.1"
+        versionCode 1
+        versionName "1.0"
     }
     
     splits {
@@ -191,6 +196,22 @@ android {
 
         }
     }
+
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            minSdkVersion rootProject.ext.minSdkVersion
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            versionCode getIncrementingVersionCode()
+            buildConfigField "String", "FLAVOR_TYPE", "\"dev\""
+        }
+        prod {
+            minSdkVersion rootProject.ext.minSdkVersion
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            versionCode getIncrementingVersionCode()
+            buildConfigField "String", "FLAVOR_TYPE", "\"prod\""
+        }
+    }
 }
 
 dependencies {
@@ -235,8 +256,10 @@ task copyDownloadableDepsToLibs(type: Copy) {
 //can call this like `./gradlew incrementVersionCode build`
 task incrementVersionCode {
     description = "Increments the version code in the version.properties file"
-
+    
     doLast {
+        def codeType = getCurrentFlavor() == 'prod' ? "VERSION_CODE" : "VERSION_CODE_DEV"
+        
         File versionPropsFile = file('version.properties')
 
         if (versionPropsFile.canRead()) {
@@ -244,11 +267,11 @@ task incrementVersionCode {
 
             versionProps.load(new FileInputStream(versionPropsFile))
 
-            def code = versionProps['VERSION_CODE'].toInteger() + 1
+            def code = versionProps[codeType].toInteger() + 1
 
-            versionProps['VERSION_CODE'] = code.toString()
+            versionProps[codeType] = code.toString()
             versionProps.store(versionPropsFile.newWriter(), null)
-            println "VERSION_CODE incremented to "+code
+            println "${codeType} incremented to "+code
         } else {
             throw new GradleException("Could not read version.properties!")
         }
@@ -258,16 +281,38 @@ task incrementVersionCode {
 //can call this from your android DSL
 int getIncrementingVersionCode() {
     def versionPropsFile = file('version.properties')
+    def codeType = getCurrentFlavor() == 'prod' ? "VERSION_CODE" : "VERSION_CODE_DEV"
 
     if (versionPropsFile.canRead()) {
         def Properties versionProps = new Properties()
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
-        def code = versionProps['VERSION_CODE'].toInteger()
+        def code = versionProps[codeType].toInteger()
         return code
     } else {
         throw new GradleException("Could not read version.properties!")
+    }
+}
+
+def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+
+    Pattern pattern
+
+    if( tskReqStr.contains( "assemble" ) )
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    else
+        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+
+    Matcher matcher = pattern.matcher( tskReqStr )
+
+    if( matcher.find() )
+        return matcher.group(1).toLowerCase()
+    else {
+        println "NO MATCH FOUND"
+        return ""
     }
 }
 

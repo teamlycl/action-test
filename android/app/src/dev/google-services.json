@@ -1,0 +1,84 @@
+{
+  "project_info": {
+    "project_number": "9212010080",
+    "project_id": "unpatest-503f1",
+    "storage_bucket": "unpatest-503f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9212010080:android:71f3bdba85dc1ee4132d05",
+        "android_client_info": {
+          "package_name": "com.unpatest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9212010080-d6mq2osn1ljvqe8jbcqshhu3esag4gng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWdxepAGXAQCJjKZe6FI7Tf-6ohhTBLSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9212010080-d6mq2osn1ljvqe8jbcqshhu3esag4gng.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9212010080-6cn36sa9s6981h6btmbs0l9v97a9i0mh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.unpa.dev",
+                "app_store_id": "117349954"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9212010080:android:fccf80c28034ce1e132d05",
+        "android_client_info": {
+          "package_name": "com.unpatest.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9212010080-d6mq2osn1ljvqe8jbcqshhu3esag4gng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWdxepAGXAQCJjKZe6FI7Tf-6ohhTBLSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9212010080-d6mq2osn1ljvqe8jbcqshhu3esag4gng.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9212010080-6cn36sa9s6981h6btmbs0l9v97a9i0mh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.unpa.dev",
+                "app_store_id": "117349954"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
