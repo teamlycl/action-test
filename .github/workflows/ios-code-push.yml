@@ -32,40 +32,40 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-    code-push-ios-beta:
-      runs-on: macOS-latest
-      needs: [init]
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+  code-push-ios-beta:
+    runs-on: macOS-latest
+    needs: [init]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-        - name: Cache node modules
-          uses: actions/cache@v2
-          with:
-            path: '**/node_modules'
-            key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
 
-        - name: Cache Pods
-          uses: actions/cache@v2
-          with:
-            path: 'ios/Pods'
-            key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
+      - name: Cache Pods
+        uses: actions/cache@v2
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-${{ env.CACHE_POD_MODULE }}-${{ hashFiles('ios/Podfile.lock') }}
 
-        - name: Setup Ruby
-          uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: '2.7.3'
-            working-directory: 'ios'
-            bundler-cache: true
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.3'
+          working-directory: 'ios'
+          bundler-cache: true
 
-        - name: Install Pods, Bundle
-          run: |
-            cd ios
-            bundle exec pod install
+      - name: Install Pods, Bundle
+        run: |
+          cd ios
+          bundle exec pod install
 
-        - name: Deploy to Codepush
-          uses: NishanthShankar/codepush-action@master
-          with:
-            args: release-react -a dev-lycl/template-ios -d Staging
-          env:
-            APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+      - name: Deploy to Codepush
+        uses: NishanthShankar/codepush-action@master
+        with:
+          args: release-react -a dev-lycl/template-ios -d Staging
+        env:
+          APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
