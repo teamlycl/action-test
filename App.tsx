@@ -63,7 +63,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">안녕하세요. 반갑습니다. action 추가</Section>
+          <Section title="Step One">안녕하세요. 반갑습니다. action 추가입니다.</Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
