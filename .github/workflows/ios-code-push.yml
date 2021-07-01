@@ -1,16 +1,6 @@
 name: ios beta code push
 
-on:
-  workflow_dispatch:
-    inputs:
-      app_target:
-        description: 'firebase app distribution group'
-        required: true
-        default: 'ios_tester_group'
-      release_notes:
-        description: 'release notes'
-        required: false
-        default: 'bugfix'
+on: workflow_dispatch
 
 env:
   NODE_VERSION: 16.x
