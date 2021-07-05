@@ -54,10 +54,12 @@ const App = () => {
   };
 
   const [version, setVersion] = useState<string>('0');
+  const [label, setLabel] = useState<string>('0');
 
   codePush.getUpdateMetadata().then((update) => {
     if (update) {
       setVersion(update.appVersion);
+      setLabel(update.label);
     }
   });
 
@@ -71,7 +73,9 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">codepush test 1.1 (23, {version})</Section>
+          <Section title="Step One">
+            codepush test {version} (23, {label})
+          </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
