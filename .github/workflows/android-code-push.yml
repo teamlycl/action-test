@@ -33,10 +33,6 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install Xmlstarlet
-        run: |
-          brew install xmlstarlet
-
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -57,8 +53,9 @@ jobs:
 
       - name: Set CodePush Deployment Key
         run: |
+          brew install xmlstarlet    
           cd android
-          xmlstarlet edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
+          xml edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
 
       - name: Code Push
         env:
