@@ -19,6 +19,17 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Cache node modules
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install packages
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: Appcenter Installation
         run: npm install -g appcenter-cli
 
@@ -30,11 +41,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Set CodePush Deployment Key
         run: |
           cd ios
           plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_KEY_IOS_STAGING }} template/Info.plist
-          cd ..
 
       - name: Code Push
         run: |
