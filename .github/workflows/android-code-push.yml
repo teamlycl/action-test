@@ -58,7 +58,7 @@ jobs:
       - name: Set CodePush Deployment Key
         run: |
           cd android
-          xmlstarlet edit --inplace --update "//resources/string[@name='reactNativeCodePush_androidDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
+          xmlstarlet edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
 
       - name: Code Push
         env:
