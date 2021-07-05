@@ -33,6 +33,10 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Install Xmlstarlet
+        run: |
+          sudo apt-get install xmlstarlet
+
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
