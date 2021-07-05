@@ -1,0 +1,25 @@
+name: ios beta code push
+
+on: workflow_dispatch
+
+env:
+  NODE_VERSION: 16.x
+  GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
+  CACHE_NODE_MODULE: node_modules@v1
+  CACHE_POD_MODULE: pods@v1
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Deploy to Codepush
+        uses: NishanthShankar/codepush-action@master
+        with:
+          args: release-react -a dev-lycl/template-ios -d Staging
+        env:
+          APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
