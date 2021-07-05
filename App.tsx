@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
@@ -53,10 +53,12 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  let version = null;
+  const [version, setVersion] = useState<string>('0');
 
   codePush.getUpdateMetadata().then((update) => {
-    version = update?.appVersion;
+    if (update) {
+      setVersion(update.appVersion);
+    }
   });
 
   return (
