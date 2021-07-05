@@ -1,22 +1,63 @@
 name: android beta code push
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'release notes'
+        required: false
+        default: 'code push'
 
 env:
   NODE_VERSION: 16.x
   GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
+  CACHE_NODE_MODULE: node_modules@v1
+
 jobs:
+  init:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache node modules
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install packages
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    needs: [init]
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Install Dependencies
-        run: npm install
-      - name: Deploy to Codepush
-        uses: NishanthShankar/codepush-action@master
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
         with:
-          args: release-react -a dev-lycl/template-android -d Staging
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Set CodePush Deployment Key
+        run: |
+          cd android
+          xml edit --inplace --update "//resources/string[@name='reactNativeCodePush_androidDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
+
+      - name: Code Push
         env:
-          APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+          RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
+        run: |
+          appcenter codepush release-react -a dev-lycl/template-ios -d Staging --description ${{ env.RELEASE_NOTE }} --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
