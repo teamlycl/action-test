@@ -53,6 +53,12 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  let version = null;
+
+  codePush.getUpdateMetadata().then((update) => {
+    version = update?.appVersion;
+  });
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -63,7 +69,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">codepush test 3</Section>
+          <Section title="Step One">codepush test 1.1 (23, {version})</Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>

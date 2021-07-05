@@ -1,6 +1,12 @@
 name: ios beta code push
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'release notes'
+        required: false
+        default: 'bugfix'
 
 env:
   NODE_VERSION: 16.x
@@ -53,8 +59,10 @@ jobs:
           plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_KEY_IOS_STAGING }} template/Info.plist
 
       - name: Code Push
+        env:
+          RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
         run: |
-          appcenter codepush release-react -a dev-lycl/template-ios -d Staging --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+          appcenter codepush release-react -a dev-lycl/template-ios -d Staging --description ${{ env.NODE_VERSION }} --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
   # deploy:
   #   name: Deploy
   #   runs-on: ubuntu-latest
