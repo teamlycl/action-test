@@ -15,7 +15,7 @@ env:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Xmlstarlet
         run: |
-          sudo apt-get install xmlstarlet
+          brew install xmlstarter
 
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
@@ -43,7 +43,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     needs: [init]
     steps:
       - name: Checkout
