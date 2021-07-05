@@ -5,29 +5,51 @@ on: workflow_dispatch
 env:
   NODE_VERSION: 16.x
   GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
+  CACHE_NODE_MODULE: node_modules@v1
 jobs:
   init:
     runs-on: macOS-latest
 
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Appcenter Installation
+        run: npm install -g appcenter-cli
+
+  deploy:
+    name: Deploy
+    runs-on: macOS-latest
+    needs: [init]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Set CodePush Deployment Key
         run: |
           cd ios
           plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_KEY_IOS_STAGING }} template/Info.plist
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: [init]
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Install Dependencies
-        run: npm install
-      - name: Deploy to Codepush
-        uses: NishanthShankar/codepush-action@master
-        with:
-          args: release-react -a dev-lycl/template-ios -d Staging
-        env:
-          APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+
+      - name: Code Push
+        run: |
+          appcenter codepush release-react -a dev-lycl/template-ios -d Staging --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+  # deploy:
+  #   name: Deploy
+  #   runs-on: ubuntu-latest
+  #   needs: [init]
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@master
+  #     - name: Install Dependencies
+  #       run: npm install
+  #     - name: Deploy to Codepush
+  #       uses: NishanthShankar/codepush-action@master
+  #       with:
+  #         args: release-react -a dev-lycl/template-ios -d Staging
+  #       env:
+  #         APPCENTER_ACCESS_TOKEN: ${{ secrets.APPCENTER_ACCESS_TOKEN }}

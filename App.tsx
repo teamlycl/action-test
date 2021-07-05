@@ -63,7 +63,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">codepush test 0</Section>
+          <Section title="Step One">codepush test 1</Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
