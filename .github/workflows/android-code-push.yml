@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Xmlstarlet
         run: |
-          brew install xmlstarter
+          brew install xmlstarlet
 
       - name: Install packages
         if: steps.node-cache.outputs.cache-hit != 'true'
