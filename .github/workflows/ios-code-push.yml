@@ -22,6 +22,11 @@ jobs:
       - name: Appcenter Installation
         run: npm install -g appcenter-cli
 
+      - name: Set CodePush Deployment Key
+        run: |
+          cd ios
+          plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_KEY_IOS_STAGING }} template/Info.plist
+
   deploy:
     name: Deploy
     runs-on: macOS-latest
@@ -29,11 +34,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Set CodePush Deployment Key
-        run: |
-          cd ios
-          plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_KEY_IOS_STAGING }} template/Info.plist
 
       - name: Code Push
         run: |
