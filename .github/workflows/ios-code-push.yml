@@ -12,6 +12,8 @@ env:
   NODE_VERSION: 16.x
   GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
   CACHE_NODE_MODULE: node_modules@v1
+  DEPLOYMENT_NAME: dev-lycl/template-ios
+
 jobs:
   init:
     runs-on: macOS-latest
@@ -59,4 +61,4 @@ jobs:
         env:
           RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
         run: |
-          appcenter codepush release-react -a dev-lycl/template-ios -d Staging --description ${{ env.RELEASE_NOTE }} --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+          appcenter codepush release-react -a ${{ env.DEPLYMENT_NAME }} -d Staging --description ${{ env.RELEASE_NOTE }} --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
