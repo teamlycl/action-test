@@ -40,8 +40,8 @@ platform :ios do
       output_name: "#{PROJECT_NAME}.ipa",
       configuration: configuration_name,
       export_options: {
-        method: ENV["SIGH_PROFILE_TYPE"],
-        provisioningProfiles: ENV['MATCH_PROVISIONING_PROFILE_MAPPING'],
+        method: ENV["SIGH_PROFILE_TYPE"], # match에서 생성된 타입을 사용
+        provisioningProfiles: ENV['MATCH_PROVISIONING_PROFILE_MAPPING'], # match에서 생성한 프로비저닝 프로파일을 사용
         signingStyle: "manual",
         path: XCODE_PROJECT
       },
