@@ -61,4 +61,4 @@ jobs:
         env:
           RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
         run: |
-          appcenter codepush release-react -a ${{ env.DEPLYMENT_NAME }} -d Staging --description ${{ env.RELEASE_NOTE }} --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
+          appcenter codepush release-react -a ${{ env.DEPLYMENT_NAME }} -d Staging --description "${{ env.RELEASE_NOTE }}" --token ${{ secrets.APPCENTER_ACCESS_TOKEN }}
