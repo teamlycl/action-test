@@ -92,8 +92,8 @@ jobs:
           RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
           FIREBASE_GROUP: ${{ github.event.inputs.app_target }}
         run: |
-          apt-get update
-          apt-get install xmlstarlet
+          sudo apt-get update
+          sudo apt-get install xmlstarlet
           cd android
           bundle exec fastlane beta
           xml edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
