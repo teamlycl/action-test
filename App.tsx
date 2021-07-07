@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
@@ -53,6 +53,14 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [label, setLabel] = useState<string>('0');
+
+  codePush.getUpdateMetadata().then((update) => {
+    if (update) {
+      setLabel(update.label);
+    }
+  });
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -63,7 +71,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">안녕하세요. 반갑습니다. action 추가입니다. 싹 다 갈아엎어주세요.</Section>
+          <Section title="Step One">codepush version {label}</Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
