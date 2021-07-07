@@ -52,11 +52,6 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ env.CACHE_NODE_MODULE }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Set CodePush Deployment Key
-        run: |
-          cd ios
-          plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_IOS_STAGING_KEY }} template/Info.plist
-
       - name: Code Push
         env:
           RELEASE_NOTE: ${{ github.event.inputs.release_notes }}
