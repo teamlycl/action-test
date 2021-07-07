@@ -38,6 +38,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = template/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = template/main.m; sourceTree = "<group>"; };
 		16BA515EC10E3ABAE7924FD9 /* Pods-template.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template.release.xcconfig"; path = "Target Support Files/Pods-template/Pods-template.release.xcconfig"; sourceTree = "<group>"; };
+		283C178A0158874CAB592844 /* Pods-template-templateTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template-templateTests.staging.xcconfig"; path = "Target Support Files/Pods-template-templateTests/Pods-template-templateTests.staging.xcconfig"; sourceTree = "<group>"; };
+		3F7C15E93CB418B48B158168 /* Pods-template.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template.staging.xcconfig"; path = "Target Support Files/Pods-template/Pods-template.staging.xcconfig"; sourceTree = "<group>"; };
 		6BF6463436FDD34FD3D8D5A7 /* libPods-template-templateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-template-templateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77D4B799BE00F24EA3381C8E /* Pods-template.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template.debug.xcconfig"; path = "Target Support Files/Pods-template/Pods-template.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = template/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -147,6 +149,8 @@
 				16BA515EC10E3ABAE7924FD9 /* Pods-template.release.xcconfig */,
 				96F233BED22A94379407B4AF /* Pods-template-templateTests.debug.xcconfig */,
 				D660FEF7A18296E9674E7FA3 /* Pods-template-templateTests.release.xcconfig */,
+				3F7C15E93CB418B48B158168 /* Pods-template.staging.xcconfig */,
+				283C178A0158874CAB592844 /* Pods-template-templateTests.staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -723,8 +727,8 @@
 				CODEPUSH_KEY = "MOVLBLtIU6_5AHaXChT2RlZHzOBYTyuu-Fx-f";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4;
-				DYLIB_CURRENT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
+				DYLIB_CURRENT_VERSION = 5;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
@@ -756,13 +760,13 @@
 		};
 		BAA3E869268C36DA00B70959 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 16BA515EC10E3ABAE7924FD9 /* Pods-template.release.xcconfig */;
+			baseConfigurationReference = 3F7C15E93CB418B48B158168 /* Pods-template.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = KLSQGFA9ZQ;
 				INFOPLIST_FILE = template/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -786,7 +790,7 @@
 		};
 		BAA3E86A268C36DA00B70959 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D660FEF7A18296E9674E7FA3 /* Pods-template-templateTests.release.xcconfig */;
+			baseConfigurationReference = 283C178A0158874CAB592844 /* Pods-template-templateTests.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
