@@ -1,4 +1,4 @@
-name: ios beta code push
+name: android beta code push
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   NODE_VERSION: 16.x
   GIT_AUTHORIZATION: ${{ secrets.GH_TOKEN }}
   CACHE_NODE_MODULE: node_modules@v1
-  DEPLOYMENT_NAME: dev-lycl/template-ios
+  DEPLOYMENT_NAME: dev-lycl/template-android
 
 jobs:
   init:
@@ -54,8 +54,9 @@ jobs:
 
       - name: Set CodePush Deployment Key
         run: |
-          cd ios
-          plutil -replace CodePushDeploymentKey -string ${{ secrets.CODEPUSH_DEPLOYMENT_IOS_STAGING_KEY }} template/Info.plist
+          brew install xmlstarlet    
+          cd android
+          xml edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
 
       - name: Code Push
         env:
