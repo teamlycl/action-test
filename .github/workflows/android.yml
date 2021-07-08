@@ -95,7 +95,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install xmlstarlet
           cd android
-          sudo xml edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
+          sudo xmlstarlet edit --inplace --update "//resources/string[@name='CodePushDeploymentKey']" --value ${{ secrets.CODEPUSH_DEPLOYMENT_ANDROID_STAGING_KEY }} app/src/main/res/values/strings.xml
           bundle exec fastlane beta
 
       - name: build version bump
