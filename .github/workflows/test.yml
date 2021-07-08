@@ -1,0 +1,14 @@
+name: xmlstarlet test
+
+on: workflow_dispatch
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: xmlstarlet path
+        run: |
+          sudo apt-get update
+          sudo apt-get install xmlstarlet
+          which xml
