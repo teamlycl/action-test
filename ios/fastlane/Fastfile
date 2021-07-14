@@ -4,9 +4,6 @@ XCODE_WORKSPACE = "./#{PROJECT_NAME}.xcworkspace"
 OUTPUT_DIRECTORY = "./fastlane/builds"
 EXPORT_IPA_FILE = "template.ipa"
 
-# beta identifier 설정
-app_identifier('me.unpa.dev.dev')
-
 default_platform(:ios)
 
 platform :ios do
