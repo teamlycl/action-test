@@ -52,7 +52,7 @@
 		96F233BED22A94379407B4AF /* Pods-template-templateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template-templateTests.debug.xcconfig"; path = "Target Support Files/Pods-template-templateTests/Pods-template-templateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B905F4492685A0D0008143BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "template/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9E4BE25269EB38C002E797E /* dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9E4BE26269EB38C002E797E /* Dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dev-Info.plist"; path = "/Users/yozi/workspace/app/action-test/ios/Dev-Info.plist"; sourceTree = "<absolute>"; };
+		B9E4BE26269EB38C002E797E /* dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "dev-Info.plist"; path = "/Users/yozi/workspace/app/action-test/ios/dev-Info.plist"; sourceTree = "<absolute>"; };
 		CDAC4291961086DFB6B1AD74 /* libPods-template.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-template.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D660FEF7A18296E9674E7FA3 /* Pods-template-templateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template-templateTests.release.xcconfig"; path = "Target Support Files/Pods-template-templateTests/Pods-template-templateTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -142,7 +142,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				C595F8C5AC3CDE9578E0C0FB /* Pods */,
-				B9E4BE26269EB38C002E797E /* Dev-Info.plist */,
+				B9E4BE26269EB38C002E797E /* dev-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 			);
 			indentWidth = 2;
@@ -870,7 +870,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KLSQGFA9ZQ;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "Dev-Info.plist";
+				INFOPLIST_FILE = "dev-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -901,7 +901,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KLSQGFA9ZQ;
-				INFOPLIST_FILE = "Dev-Info.plist";
+				INFOPLIST_FILE = "dev-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
