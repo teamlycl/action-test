@@ -3,7 +3,17 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 pod 'Firebase/Analytics'
-target 'prod' do
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+    end
+  end
+  react_native_post_install(installer)
+end
+
+def pods
   config = use_native_modules!
 
   use_react_native!(
@@ -12,53 +22,22 @@ target 'prod' do
     :hermes_enabled => false
   )
 
-  target 'templateTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
   use_flipper!()
+end
 
-  post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
-      end
-    end
-    react_native_post_install(installer)
-  end
+target 'prod' do
+  pods
 end
 
 target 'dev' do
-  config = use_native_modules!
+  pods
+end
 
-  use_react_native!(
-    :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
-  )
-
-  target 'templateTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
-  use_flipper!()
-
-  post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
-      end
-    end
-    react_native_post_install(installer)
-  end
+target 'templateTests' do
+  inherit! :complete
+  # Pods for testing
 end
