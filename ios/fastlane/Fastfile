@@ -36,7 +36,7 @@ platform :ios do
     increment_build_number
     
     gym(
-      scheme: 'Dev',
+      scheme: 'dev',
       workspace: XCODE_WORKSPACE,
       clean: true,
       silent: true,
