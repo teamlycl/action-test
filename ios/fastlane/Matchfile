@@ -2,5 +2,5 @@ git_url('https://github.com/teamlycl/fastlane-match')
 
 storage_mode('git')
 
-app_identifier('me.unpa.dev')
+app_identifier(['me.unpa.dev', 'me.unpa.dev.dev'])
 username('dev@lycl.co.kr')

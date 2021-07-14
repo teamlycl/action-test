@@ -2,6 +2,10 @@ PROJECT_NAME = "template"
 XCODE_PROJECT = "./#{PROJECT_NAME}.xcodeproj"
 XCODE_WORKSPACE = "./#{PROJECT_NAME}.xcworkspace"
 OUTPUT_DIRECTORY = "./fastlane/builds"
+EXPORT_IPA_FILE = "template.ipa"
+
+# beta identifier 설정
+app_identifier('me.unpa.dev.dev')
 
 default_platform(:ios)
 
@@ -32,12 +36,12 @@ platform :ios do
     increment_build_number
     
     gym(
-      scheme: ENV["PROJECT_NAME"],
+      scheme: 'Dev',
       workspace: XCODE_WORKSPACE,
       clean: true,
       silent: true,
       output_directory: OUTPUT_DIRECTORY,
-      output_name: "#{PROJECT_NAME}.ipa",
+      output_name: EXPORT_IPA_FILE,
       configuration: configuration_name,
       export_options: {
         method: ENV["SIGH_PROFILE_TYPE"], # match에서 생성된 타입을 사용

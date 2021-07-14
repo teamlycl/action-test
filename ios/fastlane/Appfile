@@ -4,7 +4,7 @@
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
-app_identifier('me.unpa.dev')
+app_identifier(['me.unpa.dev', 'me.unpa.dev.dev'])
 
 apple_id('dev@lycl.co.kr')
 
